@@ -29,7 +29,7 @@ server:
   port: 8080
 
 jwt:
-  secret: ${JWT_SECRET:supersecretkey_minimum32chars_for_hs256_algo}
+  secret: ${JWT_SECRET}
   expiration-ms: ${JWT_EXPIRATION_MS:86400000}
 
 dummy-login:
