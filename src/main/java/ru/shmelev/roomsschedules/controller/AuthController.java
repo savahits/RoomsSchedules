@@ -3,7 +3,7 @@ package ru.shmelev.roomsschedules.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.shmelev.roomsschedules.response.TokenResponse;
+import ru.shmelev.roomsschedules.dto.response.TokenResponse;
 import ru.shmelev.roomsschedules.security.JwtService;
 
 import java.util.UUID;
