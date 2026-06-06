@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .env
+api.yaml
+INSTRUCTIONS.md
+TASK.md
+
 
 ### STS ###
 .apt_generated
