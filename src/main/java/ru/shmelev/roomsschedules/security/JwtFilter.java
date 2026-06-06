@@ -1,4 +1,4 @@
-package security;
+package ru.shmelev.roomsschedules.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

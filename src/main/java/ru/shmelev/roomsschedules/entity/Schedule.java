@@ -1,4 +1,4 @@
-package entity;
+package ru.shmelev.roomsschedules.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
