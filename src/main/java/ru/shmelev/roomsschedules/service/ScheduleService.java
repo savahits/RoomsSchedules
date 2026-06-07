@@ -9,6 +9,7 @@ import ru.shmelev.roomsschedules.dto.response.ScheduleResponse;
 import ru.shmelev.roomsschedules.entity.Room;
 import ru.shmelev.roomsschedules.entity.Schedule;
 import ru.shmelev.roomsschedules.entity.Slot;
+import ru.shmelev.roomsschedules.exception.ScheduleAlreadyExistsException;
 import ru.shmelev.roomsschedules.repository.RoomRepository;
 import ru.shmelev.roomsschedules.repository.ScheduleRepository;
 import ru.shmelev.roomsschedules.repository.SlotRepository;
@@ -38,8 +39,7 @@ public class ScheduleService {
                         "Room not found: " + roomId));
 
         if (scheduleRepository.existsByRoomId(roomId)) {
-            throw new IllegalStateException(
-                    "Schedule already exists for room: " + roomId);
+            throw new ScheduleAlreadyExistsException(roomId);
         }
 
         if (!request.endTime().isAfter(request.startTime())) {
