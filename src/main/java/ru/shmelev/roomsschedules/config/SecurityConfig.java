@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/register", "/login").permitAll()
                         .requestMatchers("/_info").permitAll()
 
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
 
                         // переговорки
                         .requestMatchers(HttpMethod.POST, "/rooms/**").hasRole("admin")
