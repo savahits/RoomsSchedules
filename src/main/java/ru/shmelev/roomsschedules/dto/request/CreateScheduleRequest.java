@@ -1,5 +1,6 @@
 package ru.shmelev.roomsschedules.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -8,12 +9,12 @@ import java.util.List;
 
 public record CreateScheduleRequest(
 
-        @NotEmpty(message = "Укажите хотя бы один день недели")
+        @Schema(example = "[1,2,3,5]")
         List<Integer> daysOfWeek,
 
-        @NotNull(message = "Время начала обязательно")
+        @Schema(type = "string", example = "10:00")
         LocalTime startTime,
 
-        @NotNull(message = "Время окончания обязательно")
+        @Schema(type = "string", example = "18:00")
         LocalTime endTime
 ) {}
