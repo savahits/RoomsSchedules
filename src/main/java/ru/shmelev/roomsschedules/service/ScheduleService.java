@@ -13,6 +13,7 @@ import ru.shmelev.roomsschedules.repository.RoomRepository;
 import ru.shmelev.roomsschedules.repository.ScheduleRepository;
 import ru.shmelev.roomsschedules.repository.SlotRepository;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
@@ -43,6 +44,15 @@ public class ScheduleService {
 
         if (!request.endTime().isAfter(request.startTime())) {
             throw new IllegalArgumentException("endTime must be after startTime");
+        }
+
+
+        if (Duration.between(
+                request.startTime(),
+                request.endTime()
+        ).toMinutes() < 30) {
+            throw new IllegalArgumentException(
+                    "Schedule duration must be at least 30 minutes");
         }
 
         Schedule schedule = Schedule.builder()
