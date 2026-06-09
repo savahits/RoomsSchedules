@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.shmelev.roomsschedules.security.CustomAccessDeniedHandler;
+import ru.shmelev.roomsschedules.security.CustomAuthenticationEntryPoint;
 import ru.shmelev.roomsschedules.security.JwtFilter;
 
 @Configuration
@@ -22,13 +23,16 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
     private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     public SecurityConfig(
             JwtFilter jwtFilter,
-            CustomAccessDeniedHandler accessDeniedHandler
+            CustomAccessDeniedHandler accessDeniedHandler,
+            CustomAuthenticationEntryPoint authenticationEntryPoint
     ) {
         this.jwtFilter = jwtFilter;
         this.accessDeniedHandler = accessDeniedHandler;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Bean
@@ -40,6 +44,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler)
                 )
 
