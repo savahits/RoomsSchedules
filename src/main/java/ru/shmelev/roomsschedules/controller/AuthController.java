@@ -14,8 +14,6 @@ public class AuthController {
 
     private final JwtService jwtService;
 
-    // Фиксированные UUID — одинаковы для всех запросов с одной ролью.
-    // Тесты Авито стабильно получают один user_id → можно проверить владельца брони.
     private static final UUID ADMIN_ID = UUID.fromString("00000000-0000-0000-0000-000000000001");
     private static final UUID USER_ID  = UUID.fromString("00000000-0000-0000-0000-000000000002");
 
@@ -31,7 +29,6 @@ public class AuthController {
         return ResponseEntity.ok(new TokenResponse(token));
     }
 
-    // /_info — всегда 200, нужен для GitHub Actions healthcheck
     @GetMapping("/_info")
     public ResponseEntity<Void> info() {
         return ResponseEntity.ok().build();
