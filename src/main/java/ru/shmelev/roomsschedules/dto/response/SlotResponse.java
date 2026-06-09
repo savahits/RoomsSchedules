@@ -12,4 +12,16 @@ public record SlotResponse(
         OffsetDateTime start,
         OffsetDateTime end
 ) {
+
+
+    public static SlotResponse from(Slot slot) {
+        return new SlotResponse(
+                slot.getId(),
+                slot.getRoom().getId(),
+                slot.getStartAt(),
+                slot.getEndAt()
+        );
+    }
+
+
 }
