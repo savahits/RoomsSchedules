@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ru.shmelev.roomsschedules.security.CustomAccessDeniedHandler;
 import ru.shmelev.roomsschedules.security.JwtFilter;
 
 @Configuration
@@ -20,17 +21,27 @@ import ru.shmelev.roomsschedules.security.JwtFilter;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
-    public SecurityConfig(JwtFilter jwtFilter) {
+    public SecurityConfig(
+            JwtFilter jwtFilter,
+            CustomAccessDeniedHandler accessDeniedHandler
+    ) {
         this.jwtFilter = jwtFilter;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(s ->
+                        s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .csrf(AbstractHttpConfigurer::disable)
+
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler(accessDeniedHandler)
+                )
 
                 .authorizeHttpRequests(auth -> auth
 
@@ -38,22 +49,36 @@ public class SecurityConfig {
                         .requestMatchers("/register", "/login").permitAll()
                         .requestMatchers("/_info").permitAll()
 
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
 
                         // переговорки
-                        .requestMatchers(HttpMethod.POST, "/rooms/**").hasRole("admin")
-                        .requestMatchers(HttpMethod.GET,  "/rooms/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/rooms/**")
+                        .hasRole("admin")
+
+                        .requestMatchers(HttpMethod.GET, "/rooms/**")
+                        .authenticated()
 
                         // брони
-                        .requestMatchers(HttpMethod.GET, "/bookings/my").hasRole("user")
-                        .requestMatchers(HttpMethod.POST, "/bookings").hasRole("user")
-                        .requestMatchers(HttpMethod.DELETE, "/bookings/**").hasRole("user")
-                        .requestMatchers(HttpMethod.GET, "/bookings").hasRole("admin")
+                        .requestMatchers(HttpMethod.GET, "/bookings/my")
+                        .hasRole("user")
+                        .requestMatchers(HttpMethod.POST, "/bookings")
+                        .hasRole("user")
+                        .requestMatchers(HttpMethod.DELETE, "/bookings/**")
+                        .hasRole("user")
+                        .requestMatchers(HttpMethod.GET, "/bookings")
+                        .hasRole("admin")
 
                         .anyRequest().authenticated()
                 )
 
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(
+                        jwtFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                )
 
                 .build();
     }
