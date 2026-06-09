@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface SlotRepository extends JpaRepository<Slot, Long> {
+public interface SlotRepository extends JpaRepository<Slot, UUID> {
     Optional<OffsetDateTime>  findMaxEndAtByScheduleId(UUID id);
 }
