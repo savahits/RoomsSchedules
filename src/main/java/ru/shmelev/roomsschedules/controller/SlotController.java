@@ -1,6 +1,7 @@
 package ru.shmelev.roomsschedules.controller;
 
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.shmelev.roomsschedules.dto.response.SlotsResponse;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping
+@Tag(name = "Slots")
 public class SlotController {
 
     private final SlotService slotService;
