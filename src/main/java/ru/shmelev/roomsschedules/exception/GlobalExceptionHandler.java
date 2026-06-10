@@ -1,6 +1,7 @@
 package ru.shmelev.roomsschedules.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,19 +38,14 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(
-            IllegalArgumentException ex
-    )
-
-    {
-
+    @ExceptionHandler({IllegalArgumentException.class, BadRequestException.class})
+    public ResponseEntity<ApiErrorResponse> handleBadRequestExceptions(Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiErrorResponse(
                         400,
                         "BAD_REQUEST",
                         ex.getMessage()
                 ));
-
     }
+
 }
