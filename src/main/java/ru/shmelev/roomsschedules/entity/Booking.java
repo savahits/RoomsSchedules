@@ -35,9 +35,6 @@ public class Booking {
     @Builder.Default
     private Status status = Status.active;
 
-    @Column(name = "conference_link", length = 500)
-    private String conferenceLink;
-
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false,
             columnDefinition = "TIMESTAMPTZ")
