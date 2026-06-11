@@ -27,7 +27,7 @@ public class BookingService {
         this.userRepository = userRepository;
     }
 
-    public BookingResponse createBooking(UUID slotId, UUID userId) throws BadRequestException {
+    public BookingResponse createBooking(UUID slotId, UUID userId) {
 
         Slot slot = slotRepository.findById(slotId)
                 .orElseThrow(() -> new EntityNotFoundException("Слот не найден"));
