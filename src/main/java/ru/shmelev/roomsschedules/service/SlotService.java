@@ -27,7 +27,7 @@ public class SlotService {
 
     public SlotsResponse getAvailableSlots(UUID roomId, LocalDate date) {
 
-        if (roomRepository.existsById(roomId) ==  false) {
+        if (!roomRepository.existsById(roomId)) {
             throw new EntityNotFoundException("Переговорка не найдена");
         }
 
