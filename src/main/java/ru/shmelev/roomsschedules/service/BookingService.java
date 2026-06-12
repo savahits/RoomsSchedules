@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import ru.shmelev.roomsschedules.dto.response.BookingListResponse;
 import ru.shmelev.roomsschedules.dto.response.BookingResponse;
@@ -97,6 +98,27 @@ public class BookingService {
                         bookingPage.getTotalElements()
                 )
         );
+    }
+
+    public BookingResponse cancelBooking(UUID bookingId, UUID userId) {
+
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Бронь не найдена"));
+
+        if (!booking.getUser().getId().equals(userId)) {
+            throw new AccessDeniedException("Нельзя отменить чужую бронь");
+        }
+
+        if (booking.getStatus() == Booking.Status.cancelled) {
+            return BookingResponse.from(booking);
+        }
+
+        booking.setStatus(Booking.Status.cancelled);
+
+        booking = bookingRepository.save(booking);
+
+        return BookingResponse.from(booking);
     }
 
 }
