@@ -4,6 +4,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import ru.shmelev.roomsschedules.dto.response.BookingListResponse;
 import ru.shmelev.roomsschedules.dto.response.BookingResponse;
 import ru.shmelev.roomsschedules.service.BookingService;
 
@@ -30,7 +31,10 @@ public class BookingController {
 
     @GetMapping("/list")
     @PreAuthorize("hasRole('admin')")
-    public List<BookingResponse> listBookings() throws BadRequestException {
-        return bookingService.getAllBookings();
+    public BookingListResponse listBookings(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int pageSize) {
+
+        return bookingService.getAllBookings(page, pageSize);
     }
 }
