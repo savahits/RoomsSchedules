@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.shmelev.roomsschedules.dto.response.BookingListResponse;
 import ru.shmelev.roomsschedules.dto.response.BookingResponse;
 import ru.shmelev.roomsschedules.dto.response.PaginationResponse;
 import ru.shmelev.roomsschedules.entity.Booking;
@@ -13,7 +14,6 @@ import ru.shmelev.roomsschedules.entity.User;
 import ru.shmelev.roomsschedules.repository.BookingRepository;
 import ru.shmelev.roomsschedules.repository.SlotRepository;
 import ru.shmelev.roomsschedules.repository.UserRepository;
-import ru.shmelev.roomsschedules.dto.response.BookingListResponse;
 
 import java.time.OffsetDateTime;
 import java.util.List;

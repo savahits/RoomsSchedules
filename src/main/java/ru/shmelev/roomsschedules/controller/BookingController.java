@@ -9,7 +9,6 @@ import ru.shmelev.roomsschedules.dto.response.BookingListResponse;
 import ru.shmelev.roomsschedules.dto.response.BookingResponse;
 import ru.shmelev.roomsschedules.service.BookingService;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
