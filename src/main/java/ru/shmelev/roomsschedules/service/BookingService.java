@@ -1,18 +1,21 @@
 package ru.shmelev.roomsschedules.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.apache.coyote.BadRequestException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.shmelev.roomsschedules.dto.response.BookingResponse;
+import ru.shmelev.roomsschedules.dto.response.PaginationResponse;
 import ru.shmelev.roomsschedules.entity.Booking;
 import ru.shmelev.roomsschedules.entity.Slot;
 import ru.shmelev.roomsschedules.entity.User;
 import ru.shmelev.roomsschedules.repository.BookingRepository;
 import ru.shmelev.roomsschedules.repository.SlotRepository;
 import ru.shmelev.roomsschedules.repository.UserRepository;
+import ru.shmelev.roomsschedules.dto.response.BookingListResponse;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,15 +68,35 @@ public class BookingService {
 
     }
 
-    public List<BookingResponse> getAllBookings() {
-        List<Booking> bookings = bookingRepository.findAll();
+    public BookingListResponse getAllBookings(int page, int pageSize) {
 
-        List<BookingResponse> bookingResponses = new ArrayList<>();
+        if (page < 1) {
+            throw new IllegalArgumentException("page должен быть >= 1");
+        }
 
-        bookings.forEach(booking -> {
-            bookingResponses.add(BookingResponse.from(booking));
-        });
-        return bookingResponses;
+        if (pageSize < 1 || pageSize > 100) {
+            throw new IllegalArgumentException("pageSize должен быть от 1 до 100");
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+
+        Page<Booking> bookingPage =
+                bookingRepository.findAll(pageable);
+
+        List<BookingResponse> bookings =
+                bookingPage.getContent()
+                        .stream()
+                        .map(BookingResponse::from)
+                        .toList();
+
+        return new BookingListResponse(
+                bookings,
+                new PaginationResponse(
+                        page,
+                        pageSize,
+                        bookingPage.getTotalElements()
+                )
+        );
     }
 
 }
