@@ -12,6 +12,8 @@ import ru.shmelev.roomsschedules.repository.SlotRepository;
 import ru.shmelev.roomsschedules.repository.UserRepository;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -61,6 +63,17 @@ public class BookingService {
         );
 
 
+    }
+
+    public List<BookingResponse> getAllBookings() {
+        List<Booking> bookings = bookingRepository.findAll();
+
+        List<BookingResponse> bookingResponses = new ArrayList<>();
+
+        bookings.forEach(booking -> {
+            bookingResponses.add(BookingResponse.from(booking));
+        });
+        return bookingResponses;
     }
 
 }
