@@ -1,5 +1,6 @@
 package ru.shmelev.roomsschedules.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/bookings")
+@Tag(name = "Booking")
 public class BookingController {
 
     private final BookingService bookingService;
