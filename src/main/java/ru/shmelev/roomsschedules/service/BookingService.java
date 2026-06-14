@@ -121,4 +121,16 @@ public class BookingService {
         return BookingResponse.from(booking);
     }
 
+    public List<BookingResponse> getBookingsByUser(UUID userId) {
+
+        return bookingRepository
+                .findAllByUser_IdAndSlot_StartAtGreaterThanEqual(
+                        userId,
+                        OffsetDateTime.now()
+                )
+                .stream()
+                .map(BookingResponse::from)
+                .toList();
+    }
+
 }
