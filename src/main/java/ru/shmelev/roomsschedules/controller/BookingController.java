@@ -40,7 +40,7 @@ public class BookingController {
         return bookingService.getAllBookings(page, pageSize);
     }
 
-    @PatchMapping("/{bookingId}/cancel")
+    @PostMapping("/{bookingId}/cancel")
     @PreAuthorize("hasRole('user')")
     public BookingResponse cancelBooking(
             @PathVariable UUID bookingId,
