@@ -23,8 +23,8 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @PostMapping("/create/{slotId}")
-    public BookingResponse createBooking(@PathVariable UUID slotId, Authentication authentication) throws BadRequestException {
+    @PostMapping("/create")
+    public BookingResponse createBooking(@RequestParam UUID slotId, Authentication authentication) throws BadRequestException {
 
         UUID userId = (UUID) authentication.getPrincipal();
 
