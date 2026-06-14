@@ -16,12 +16,12 @@ spring:
       connection-timeout: 30000
 
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: validate
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
   flyway:
@@ -38,7 +38,7 @@ jwt:
 
 dummy-login:
   admin-id: 00000000-0000-0000-0000-000000000001
-  user-id:  00000000-0000-0000-0000-000000000002
+  user-id: 00000000-0000-0000-0000-000000000002
 
 slots:
   generation-window-days: 30
