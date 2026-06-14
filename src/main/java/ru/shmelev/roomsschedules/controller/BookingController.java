@@ -9,6 +9,7 @@ import ru.shmelev.roomsschedules.dto.response.BookingListResponse;
 import ru.shmelev.roomsschedules.dto.response.BookingResponse;
 import ru.shmelev.roomsschedules.service.BookingService;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -48,6 +49,16 @@ public class BookingController {
         UUID userId = (UUID) authentication.getPrincipal();
 
         return bookingService.cancelBooking(bookingId, userId);
+    }
+
+    @GetMapping("/my")
+    @PreAuthorize("hasRole('user')")
+    public List<BookingResponse> getMyBookings(Authentication authentication) {
+
+        UUID userId = (UUID) authentication.getPrincipal();
+
+        return bookingService.getBookingsByUser(userId);
+
     }
 
 }
