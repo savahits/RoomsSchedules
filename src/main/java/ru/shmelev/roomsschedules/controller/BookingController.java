@@ -2,6 +2,7 @@ package ru.shmelev.roomsschedules.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.coyote.BadRequestException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -42,13 +43,12 @@ public class BookingController {
 
     @PostMapping("/{bookingId}/cancel")
     @PreAuthorize("hasRole('user')")
-    public BookingResponse cancelBooking(
+    public ResponseEntity<BookingResponse> cancelBooking(
             @PathVariable UUID bookingId,
             Authentication authentication) {
 
         UUID userId = (UUID) authentication.getPrincipal();
-
-        return bookingService.cancelBooking(bookingId, userId);
+        return ResponseEntity.ok(bookingService.cancelBooking(bookingId, userId));
     }
 
     @GetMapping("/my")
